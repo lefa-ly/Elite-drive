@@ -2,683 +2,511 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Elite Driving | Botswana E-Learning</title>
-  <!-- Google Fonts & Font Awesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DriveSmart_Bots • gold & black</title>
+  <!-- Font Awesome 6 (free) + Google Font -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Chart.js for progress visual -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-      transition: all 0.2s ease;
     }
 
     body {
+      font-family: 'Inter', sans-serif;
+      background-color: #000000;  /* pure black */
+      color: #f0f0f0;
+      line-height: 1.5;
       min-height: 100vh;
-      background: radial-gradient(circle at 20% 30%, rgba(0,0,0,0.92), #000000);
-      position: relative;
-      color: white;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* DYNAMIC BACKGROUND IMAGES (overlay blend) */
-    .bg-layer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.2;
-      z-index: 0;
-      transition: opacity 1s ease;
-      pointer-events: none;
+    /* gold palette */
+    :root {
+      --gold: #FFD700;      /* primary gold */
+      --gold-soft: #f5c542;
+      --gold-dark: #b8860b;
+      --black-soft: #0a0a0a;
+      --gray-deep: #1e1e1e;
     }
 
-    /* main container */
-    .app-container {
-      position: relative;
-      z-index: 2;
-      max-width: 1400px;
+    /* layout */
+    .wrapper {
+      max-width: 1300px;
       margin: 0 auto;
-      padding: 20px 24px 40px;
+      padding: 1.2rem 2rem;
+      flex: 1;
+      width: 100%;
     }
 
-    /* glassmorphic core */
-    .glass-card {
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(12px);
-      border-radius: 2rem;
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(255,215,0,0.2);
-      transition: transform 0.2s, border-color 0.2s;
-    }
-
-    .glass-card:hover {
-      border-color: rgba(255, 215, 0, 0.7);
-      transform: translateY(-3px);
-    }
-
-    /* header */
+    /* header ––––––––––––––––– */
     .header {
       display: flex;
+      align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--gold);
+      margin-bottom: 2rem;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(145deg, #FFD700, #f5b81b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .logo:hover {
+      transform: scale(1.02);
+      filter: drop-shadow(0 0 6px rgba(255,215,0,0.6));
+    }
+
+    /* navigation */
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 32px;
-      padding: 20px 28px;
     }
-
-    .logo h1 {
-      font-size: 2.1rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #FFD966, #FFB347);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      letter-spacing: -0.5px;
-    }
-    .logo p {
-      font-size: 0.75rem;
-      color: #e6c87e;
-      letter-spacing: 1px;
-    }
-
-    .stats {
-      display: flex;
-      gap: 20px;
-    }
-    .stat-badge {
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(8px);
-      padding: 8px 18px;
-      border-radius: 60px;
-      border-left: 3px solid gold;
+    .nav-link {
+      color: #dddddd;
       font-weight: 600;
-      font-size: 0.9rem;
-    }
-    .stat-badge i {
-      color: gold;
-      margin-right: 8px;
-    }
-
-    /* theme toggle + settings */
-    .settings-area {
-      display: flex;
-      gap: 12px;
-    }
-    .theme-btn {
-      background: rgba(0,0,0,0.6);
-      border: 1px solid rgba(255,215,0,0.5);
-      padding: 8px 16px;
-      border-radius: 40px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.8rem;
-      backdrop-filter: blur(4px);
-      transition: all 0.2s;
-    }
-    .theme-btn:hover {
-      background: rgba(255,215,0,0.2);
-      border-color: gold;
-    }
-
-    /* navigation tabs */
-    .tabs {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-    }
-    .tab-btn {
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(8px);
-      border: none;
-      padding: 12px 28px;
-      border-radius: 60px;
-      font-weight: 700;
-      font-size: 1rem;
-      color: #ddd;
-      cursor: pointer;
+      font-size: 1.2rem;
+      text-decoration: none;
+      padding: 0.3rem 0;
+      border-bottom: 3px solid transparent;
       transition: 0.2s;
-      border: 1px solid transparent;
+      cursor: pointer;
     }
-    .tab-btn.active {
-      background: linear-gradient(145deg, #2a2416, #1e1a0e);
-      border-color: #FFD966;
-      color: gold;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    .nav-link.active {
+      border-bottom-color: var(--gold);
+      color: white;
+      text-shadow: 0 0 6px rgba(255,215,0,0.4);
     }
-    .tab-btn i {
-      margin-right: 8px;
+    .nav-link:hover {
+      color: var(--gold);
+      border-bottom-color: var(--gold-soft);
     }
 
-    /* content panels */
-    .panel {
-      display: none;
-      animation: fadeInUp 0.4s ease;
+    .home-icon {
+      background-color: var(--gold);
+      color: black;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 0 0 2px transparent;
     }
-    .panel.active-panel {
+    .home-icon:hover {
+      background-color: #ffcd2e;
+      transform: scale(1.07) rotate(360deg);
+      box-shadow: 0 0 15px gold;
+    }
+
+    /* pages container ––– */
+    .pages {
+      min-height: 60vh;
+      background-color: #000000;
+      border-radius: 32px;
+      padding: 0.4rem 0.2rem;
+    }
+
+    .page {
+      display: none;
+      animation: softGlow 0.5s ease;
+    }
+    .page.active-page {
       display: block;
     }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(12px);}
-      to { opacity: 1; transform: translateY(0);}
+    /* micro animations */
+    @keyframes softGlow {
+      0% { opacity: 0.3; transform: translateY(5px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* lessons grid */
-    .lessons-grid, .road-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
-      margin-bottom: 40px;
-    }
-    .lesson-card {
-      padding: 20px;
-      cursor: pointer;
-    }
-    .lesson-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 8px;
-      color: #FFD966;
-    }
-    .lesson-status {
-      margin-top: 12px;
-      font-size: 0.8rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .complete-badge {
-      background: gold;
-      color: black;
-      border-radius: 40px;
-      padding: 4px 12px;
-      font-weight: bold;
-    }
-
-    /* quiz container */
-    .quiz-area {
-      background: rgba(0,0,0,0.65);
-      backdrop-filter: blur(12px);
-      border-radius: 2rem;
-      padding: 28px;
-      margin: 20px 0;
-    }
-    .quiz-question {
-      font-size: 1.5rem;
+    /* cards & elements */
+    h1, h2 {
+      color: var(--gold);
       font-weight: 700;
-      margin-bottom: 24px;
+      letter-spacing: -0.02em;
     }
-    .quiz-options {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 28px;
-    }
-    .quiz-option {
-      background: rgba(255,255,255,0.08);
-      padding: 14px 20px;
-      border-radius: 60px;
-      cursor: pointer;
-      border: 1px solid rgba(255,215,0,0.3);
-      transition: 0.1s;
-    }
-    .quiz-option:hover {
-      background: rgba(255,215,0,0.2);
-      border-color: gold;
-    }
-    .reward-notif {
-      background: radial-gradient(ellipse at center, #f5b04220, #000);
-      border-left: 6px solid gold;
-      padding: 16px;
-      border-radius: 20px;
-      margin-top: 16px;
-      font-weight: bold;
+    h1 i, h2 i {
+      margin-right: 10px;
+      color: var(--gold);
     }
 
-    /* progress chart */
-    .progress-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 28px;
-      margin-top: 20px;
-    }
-    .chart-container {
-      flex: 1;
-      min-width: 200px;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(8px);
+    .gold-card {
+      background-color: var(--gray-deep);
+      border-left: 6px solid var(--gold);
       border-radius: 24px;
-      padding: 20px;
-    }
-
-    /* reward medals */
-    .reward-list {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-    .medal {
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px);
-      border-radius: 60px;
-      padding: 8px 18px;
-      font-weight: bold;
-      border: 1px solid gold;
-    }
-    button {
-      background: gold;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 40px;
-      font-weight: 800;
-      color: black;
-      cursor: pointer;
+      padding: 1.5rem;
+      box-shadow: 0 12px 20px -10px rgba(255,215,0,0.2);
       transition: 0.2s;
+      height: 100%;
     }
-    button:hover {
+    .gold-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px -6px #ffd70080;
+      border-left-width: 8px;
+    }
+
+    .grid-3, .grid-2 {
+      display: grid;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+    .badge-gold {
+      background: var(--gold);
+      color: black;
+      font-weight: 700;
+      padding: 0.25rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+      font-size: 0.9rem;
+    }
+
+    /* quiz micro‑interaction */
+    .quiz-box {
+      background: #0d0d0d;
+      border: 2px solid var(--gold);
+      border-radius: 36px;
+      padding: 2rem;
+      margin: 2.5rem 0 1.5rem;
+    }
+    .option-btn {
+      background: #1f1f1f;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 60px;
+      padding: 0.9rem 1.8rem;
+      margin: 0.5rem 0.5rem 0 0;
+      font-weight: 600;
+      transition: all 0.15s;
+      width: fit-content;
+      cursor: pointer;
+    }
+    .option-btn:hover {
+      background: var(--gold);
+      color: black;
+      border-color: var(--gold);
       transform: scale(1.02);
-      background: #ffc107;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+    }
+    .feedback {
+      margin-top: 1.5rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      min-height: 3rem;
+      color: var(--gold);
     }
 
+    hr {
+      border: 1px solid #333;
+      margin: 2rem 0;
+    }
     footer {
+      margin-top: 3rem;
       text-align: center;
-      margin-top: 60px;
-      font-size: 0.75rem;
-      opacity: 0.6;
+      color: #888;
+      border-top: 1px solid #292929;
+      padding-top: 1.8rem;
+      font-size: 0.95rem;
+    }
+    .gold-text {
+      color: var(--gold);
     }
 
-    @media (max-width: 700px) {
-      .header { flex-direction: column; align-items: start; }
+    /* extra animation on road sign icon */
+    .pulse-gold {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { text-shadow: 0 0 2px gold; }
+      50% { text-shadow: 0 0 16px gold; }
+      100% { text-shadow: 0 0 2px gold; }
+    }
+
+    /* home button also visible */
+    .btn-home {
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      padding: 0.5rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 700;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .btn-home:hover {
+      background: var(--gold);
+      color: black;
+    }
+    .flex-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
   </style>
 </head>
 <body>
-<div class="bg-layer" id="dynamicBg" style="background-image: url('https://images.pexels.com/photos/290275/pexels-photo-290275.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');"></div>
-
-<div class="app-container">
-  <div class="glass-card header">
-    <div class="logo">
-      <h1><i class="fas fa-crown"></i> ELITE DRIVING</h1>
-      <p>Botswana Driving Authority • Road to Excellence</p>
+<div class="wrapper">
+  <!-- header with home button (icon) + logo + nav -->
+  <div class="header">
+    <div class="logo" id="logoHome"><i class="fas fa-car-side" style="color: #FFD700; -webkit-text-fill-color: gold;"></i> DriveSmart_Bots</div>
+    <div class="nav-links">
+      <span class="nav-link active" data-page="home">Home</span>
+      <span class="nav-link" data-page="features">Features</span>
+      <span class="nav-link" data-page="monetization">Monetization</span>
+      <span class="nav-link" data-page="extras">Extras</span>
     </div>
-    <div class="stats">
-      <div class="stat-badge"><i class="fas fa-star"></i> XP: <span id="xpValue">0</span></div>
-      <div class="stat-badge"><i class="fas fa-trophy"></i> Rewards: <span id="rewardCount">0</span></div>
-      <div class="stat-badge"><i class="fas fa-chart-line"></i> Progress: <span id="progressPercent">0</span>%</div>
-    </div>
-    <div class="settings-area">
-      <div class="theme-btn" data-theme="default"><i class="fas fa-palette"></i> Default</div>
-      <div class="theme-btn" data-theme="midnight"><i class="fas fa-moon"></i> Midnight</div>
-      <div class="theme-btn" data-theme="savanna"><i class="fas fa-tree"></i> Savanna</div>
+    <div class="home-icon" id="homeIconBtn" title="home">
+      <i class="fas fa-home"></i>
     </div>
   </div>
 
-  <div class="tabs">
-    <button class="tab-btn active" data-tab="lessons"><i class="fas fa-book-open"></i> Lessons & Signs</button>
-    <button class="tab-btn" data-tab="quiz"><i class="fas fa-question-circle"></i> Real Quizzes</button>
-    <button class="tab-btn" data-tab="progress"><i class="fas fa-chart-simple"></i> Progress & Rewards</button>
-  </div>
-
-  <!-- LESSONS PANEL (Driving lessons + Road Signs) -->
-  <div id="lessonsPanel" class="panel active-panel">
-    <div class="glass-card" style="padding: 20px; margin-bottom: 28px;">
-      <h2><i class="fas fa-road"></i> Driving Lessons (Botswana Handbook)</h2>
-      <p style="margin-top: 6px;">Master road rules, vehicle control, and defensive driving based on Botswana's official curriculum.</p>
-    </div>
-    <div class="lessons-grid" id="lessonsContainer"></div>
-    
-    <div class="glass-card" style="padding: 20px; margin-top: 20px;">
-      <h2><i class="fas fa-traffic-light"></i> Road Signs & Markings</h2>
-      <p>Essential warning, regulatory, and information signs from Botswana roads.</p>
-    </div>
-    <div class="road-grid" id="roadSignsContainer"></div>
-  </div>
-
-  <!-- QUIZ PANEL -->
-  <div id="quizPanel" class="panel">
-    <div class="quiz-area" id="quizWidget">
-      <div style="display: flex; justify-content: space-between;">
-        <h2><i class="fas fa-brain"></i> Botswana Driving Quiz</h2>
-        <span id="quizScoreBadge" style="background:gold; color:black; padding:6px 16px; border-radius: 40px;">Score: 0</span>
+  <!-- pages (multi‑page simulation) -->
+  <div class="pages">
+    <!-- HOME page -->
+    <div id="page-home" class="page active-page">
+      <div class="flex-row" style="justify-content: space-between;">
+        <h1><i class="fas fa-graduation-cap gold-text"></i> learn differently, Botswana</h1>
+        <span class="badge-gold"><i class="fas fa-star"></i> theory on-the-go</span>
       </div>
-      <div id="quizDynamicContent"></div>
-    </div>
-    <div id="rewardMessage" class="reward-notif" style="display: none;"></div>
-  </div>
-
-  <!-- PROGRESS & REWARDS PANEL -->
-  <div id="progressPanel" class="panel">
-    <div class="glass-card" style="padding: 24px;">
-      <h2><i class="fas fa-chart-line"></i> Your Elite Journey</h2>
-      <div class="progress-stats">
-        <div class="chart-container"><canvas id="progressChart" width="300" height="200"></canvas></div>
-        <div class="chart-container">
-          <h3>🏆 Achievements</h3>
-          <div id="rewardsList" class="reward-list"></div>
-          <button id="resetProgressBtn" style="margin-top: 24px; background:#333; color:gold;">Reset Progress</button>
+      <div class="grid-2" style="margin-top: 1.5rem;">
+        <div class="gold-card">
+          <i class="fas fa-exclamation-triangle" style="color: gold; font-size: 2rem; margin-bottom: 1rem;"></i>
+          <h3 style="color:white;">📕 the problem</h3>
+          <p style="color:#ccc;">Learners in Botswana rely on books & static slides — outdated, boring, hard to engage. Many struggle to prepare for the theory test without interactive tools.</p>
+        </div>
+        <div class="gold-card">
+          <i class="fas fa-lightbulb" style="color: gold; font-size: 2rem; margin-bottom: 1rem;"></i>
+          <h3 style="color:white;">⚡ our solution</h3>
+          <p style="color:#ccc;"><span class="gold-text">DriveSmart_Bots</span> mobile app: study rules, practice questions, earn rewards, track progress. Road sign games, hazard videos & tips — all interactive.</p>
         </div>
       </div>
+      <!-- quick feature highlights -->
+      <div style="background: #0b0b0b; border-radius: 40px; padding: 1.8rem; margin: 2rem 0;">
+        <div style="display: flex; gap: 1.2rem; flex-wrap: wrap; justify-content: center; text-align: center;">
+          <div><i class="fas fa-road" style="color: gold; font-size: 2.5rem;"></i><br>sign recognition</div>
+          <div><i class="fas fa-video" style="color: gold; font-size: 2.5rem;"></i><br>hazard videos</div>
+          <div><i class="fas fa-tachometer-alt" style="color: gold; font-size: 2.5rem;"></i><br>simulator (later)</div>
+          <div><i class="fas fa-trophy" style="color: gold; font-size: 2.5rem;"></i><br>points & rewards</div>
+        </div>
+      </div>
+      <p style="font-size: 1.2rem;"><span class="badge-gold"><i class="fas-regular fa-mobile"></i> Gaborone first</span> — driving schools, insurers, all digital.</p>
+    </div>
+
+    <!-- FEATURES page (with mini interactive quiz) -->
+    <div id="page-features" class="page">
+      <h2><i class="fas fa-cogs gold-text"></i> features & interactive tools</h2>
+      <div class="grid-3">
+        <div class="gold-card"><i class="fas fa-book-open gold-text" style="font-size: 2rem;"></i> <strong>Digital rules & signs</strong> – simple modules with illustrations.</div>
+        <div class="gold-card"><i class="fas fa-pencil-alt gold-text" style="font-size: 2rem;"></i> <strong>Practice questions</strong> – like official test, with instant feedback.</div>
+        <div class="gold-card"><i class="fas fa-medal gold-text" style="font-size: 2rem;"></i> <strong>Points & rewards</strong> – earn gold stars for correct answers.</div>
+        <div class="gold-card"><i class="fas fa-chart-line gold-text" style="font-size: 2rem;"></i> <strong>Progress tracker</strong> – see weak areas & improve.</div>
+        <div class="gold-card"><i class="fas fa-traffic-light gold-text" style="font-size: 2rem;"></i> <strong>Road sign recognition</strong> – flashcards & mini-quiz.</div>
+        <div class="gold-card"><i class="fas fa-eye gold-text" style="font-size: 2rem;"></i> <strong>Hazard perception videos</strong> – real‑life scenarios.</div>
+        <div class="gold-card"><i class="fas fa-car gold-text" style="font-size: 2rem;"></i> <strong>Step‑by‑step driving tips</strong> – for beginners.</div>
+        <div class="gold-card"><i class="fas fa-robot gold-text" style="font-size: 2rem;"></i> <strong>Simulator (future)</strong> – advanced version later.</div>
+      </div>
+
+      <!-- interactive quiz demo (gold animation) -->
+      <div class="quiz-box">
+        <h3 style="color:white;">🎯 test yourself: sign practice</h3>
+        <p style="color: #aaa;">What does this sign mean? <i class="fas fa-stop-circle pulse-gold" style="color: gold;"></i> (stop sign demo)</p>
+        <div>
+          <button class="option-btn" id="optA">A. Slow down and go</button>
+          <button class="option-btn" id="optB">B. Stop completely, give way</button>
+          <button class="option-btn" id="optC">C. Yield to pedestrians only</button>
+          <button class="option-btn" id="optD">D. No entry</button>
+        </div>
+        <div id="quizFeedback" class="feedback"><i class="fas fa-hand-point-right"></i> click an option</div>
+        <p style="color: gold; font-size: 0.9rem;"><i class="fas fa-coins"></i> correct answer = +10 points (simulated)</p>
+      </div>
+    </div>
+
+    <!-- MONETIZATION page (ads, partnerships) -->
+    <div id="page-monetization" class="page">
+      <h2><i class="fas fa-coins gold-text"></i> monetization & partnerships</h2>
+      <div class="grid-2">
+        <div class="gold-card">
+          <i class="fas fa-ad" style="color: gold; font-size: 2rem;"></i>
+          <h3>in-app ads</h3>
+          <p>Non‑intrusive ads – e.g. after every 5 practice questions. Steady revenue while keeping core free.</p>
+        </div>
+        <div class="gold-card">
+          <i class="fas fa-handshake" style="color: gold; font-size: 2rem;"></i>
+          <h3>driving school licensing</h3>
+          <p>Schools in Gaborone pay a subscription to use DriveSmart_Bots as official theory tool before practical lessons.</p>
+        </div>
+        <div class="gold-card">
+          <i class="fas fa-file-invoice" style="color: gold; font-size: 2rem;"></i>
+          <h3>insurance partnerships</h3>
+          <p>Anonymized knowledge data → identify responsible learners → lower premiums. Platform earns commission.</p>
+        </div>
+        <div class="gold-card">
+          <i class="fas fa-chart-pie" style="color: gold; font-size: 2rem;"></i>
+          <h3>scalable model</h3>
+          <p>Value for driving schools, insurers, and learners – all while keeping engagement high.</p>
+        </div>
+      </div>
+      <p style="border-left: 5px solid gold; background: #111; padding: 1.5rem;"><i class="fas fa-lightbulb"></i> <strong>simulator version (later)</strong> – could become premium upgrade.</p>
+    </div>
+
+    <!-- EXTRAS page (additional opportunities) -->
+    <div id="page-extras" class="page">
+      <h2><i class="fas fa-crown gold-text"></i> additional opportunities</h2>
+      <div class="grid-2">
+        <div class="gold-card"><i class="fas fa-calendar-check gold-text"></i> <strong>lesson booking</strong> – connect with nearby driving schools directly.</div>
+        <div class="gold-card"><i class="fas fa-clipboard-list gold-text"></i> <strong>test appointments</strong> – schedule official driving test via platform.</div>
+        <div class="gold-card"><i class="fas fa-certificate gold-text"></i> <strong>progress reports</strong> – generate certificate of readiness for theory test.</div>
+        <div class="gold-card"><i class="fas fa-map-pin gold-text"></i> <strong>Gaborone first</strong> – partner with local schools, then nationwide.</div>
+      </div>
+      <!-- extra mention -->
+      <div style="margin-top: 2.5rem; background: #0f0f0f; border-radius: 2rem; padding: 1.5rem;">
+        <i class="fas fa-arrow-right gold-text"></i> future integration: road sign recognition exercises, hazard perception, step‑by‑step tips (already in features).<br>
+        <i class="fas fa-arrow-right gold-text"></i> "even without simulator, rich with interactivity."
+      </div>
     </div>
   </div>
-  <footer>📖 Based on Botswana's Road Traffic Act & Driving Handbook | Elite Driving Simulator</footer>
+
+  <!-- footer with home button alternative (text) -->
+  <footer>
+    <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+      <span class="btn-home" id="footerHomeBtn"><i class="fas fa-home"></i> home</span>
+      <span style="color: var(--gold);">© 2025 DriveSmart_Bots – Botswana</span>
+    </div>
+    <span style="color: #555;">interactive learning • gold & black • multi‑page concept</span>
+  </footer>
 </div>
 
+<!-- JavaScript: pages, home buttons, interactive quiz & animations -->
 <script>
-  // ---------- DATA MODELS (Botswana handbook inspired) ----------
-  const lessonsData = [
-    { id: 1, title: "Vehicle Controls & Cockpit Drill", description: "Steering, mirrors, clutch control, and pre-drive checks (Botswana standards).", completed: false, xp: 50 },
-    { id: 2, title: "Rules of the Road & Right of Way", description: "Intersections, roundabouts, yielding rules – BOTswana priority system.", completed: false, xp: 60 },
-    { id: 3, title: "Defensive Driving & Hazard Perception", description: "Anticipating hazards, following distance, wet weather.", completed: false, xp: 70 },
-    { id: 4, title: "Parking & Manoeuvres", description: "Parallel parking, three-point turn, bay parking.", completed: false, xp: 55 }
-  ];
-  
-  const roadSignsData = [
-    { id: 101, name: "STOP (Regulatory)", desc: "Come to a complete halt. Proceed when safe.", completed: false, xp: 30 },
-    { id: 102, name: "Give Way", desc: "Yield to traffic on major road.", completed: false, xp: 30 },
-    { id: 103, name: "No Entry", desc: "Road closed to oncoming vehicles.", completed: false, xp: 30 },
-    { id: 104, name: "Pedestrian Crossing", desc: "Watch for pedestrians, slow down.", completed: false, xp: 30 },
-    { id: 105, name: "Warning: Animals", desc: "Livestock crossing areas in Botswana.", completed: false, xp: 30 }
-  ];
-  
-  // Botswana real quizzes (handbook based)
-  const quizBank = [
-    { question: "What is the maximum speed limit on a rural road in Botswana for a light vehicle?", options: ["80 km/h", "100 km/h", "120 km/h", "60 km/h"], correct: 1, explanation: "Rural roads: 100 km/h for light vehicles (Botswana Road Act)." },
-    { question: "When approaching a roundabout in Botswana, who has right of way?", options: ["Vehicles already on roundabout", "Vehicles entering from right", "The largest vehicle", "All yield equally"], correct: 0, explanation: "Traffic already on the roundabout has right of way." },
-    { question: "What does a flashing red traffic light mean?", options: ["Stop, then proceed when safe", "Prepare to stop", "Go slowly", "Emergency vehicle only"], correct: 0, explanation: "Flashing red = stop, then proceed when safe." },
-    { question: "What is the legal blood alcohol limit for professional drivers in Botswana?", options: ["0.00%", "0.02%", "0.05%", "0.08%"], correct: 0, explanation: "Professional drivers must have zero alcohol." },
-    { question: "Which sign indicates a 'no overtaking' zone?", options: ["Red circle with two cars", "Yellow diamond", "Blue circle", "Red triangle"], correct: 0, explanation: "Red circle with two cars (one black, one red) means no overtaking." }
-  ];
-  
-  // ---- STATE ----
-  let userXP = 0;
-  let completedLessons = new Set();    // store lesson ids + sign ids as string
-  let completedQuizzesCount = 0;       // each unique quiz completion? we track answered quiz set per question
-  let quizAttempted = new Array(quizBank.length).fill(false);
-  let rewardMedals = []; // store medal names
-  let currentQuizIndex = 0;
-  let quizScoreSession = 0; // per quiz session? we'll track answered correct count per quiz attempt
-  
-  // load from localStorage
-  function loadProgress() {
-    const saved = localStorage.getItem("eliteDrivingBotswana");
-    if(saved) {
-      const data = JSON.parse(saved);
-      userXP = data.xp || 0;
-      completedLessons = new Set(data.completedIds || []);
-      quizAttempted = data.quizAttempted || new Array(quizBank.length).fill(false);
-      rewardMedals = data.rewards || [];
-      updateUIFromState();
-    }
-    computeGlobalProgress();
-    updateStatsDisplay();
-    renderAllPanels();
-  }
-  
-  function saveProgress() {
-    const data = {
-      xp: userXP,
-      completedIds: Array.from(completedLessons),
-      quizAttempted: quizAttempted,
-      rewards: rewardMedals
+  (function() {
+    // ---- page switching ----
+    const pages = {
+      home: document.getElementById('page-home'),
+      features: document.getElementById('page-features'),
+      monetization: document.getElementById('page-monetization'),
+      extras: document.getElementById('page-extras')
     };
-    localStorage.setItem("eliteDrivingBotswana", JSON.stringify(data));
-  }
-  
-  function addXP(amount, source) {
-    userXP += amount;
-    updateStatsDisplay();
-    checkRewards(source);
-    saveProgress();
-    computeGlobalProgress();
-    if(document.getElementById("progressPanel").classList.contains("active-panel") === false) {}
-    renderProgressPanel();
-  }
-  
-  function checkRewards(source) {
-    let newMedal = null;
-    if(userXP >= 200 && !rewardMedals.includes("Bronze Elite")) { newMedal = "Bronze Elite"; }
-    if(userXP >= 500 && !rewardMedals.includes("Silver Master")) { newMedal = "Silver Master"; }
-    if(userXP >= 900 && !rewardMedals.includes("Gold Legend")) { newMedal = "Gold Legend"; }
-    if(userXP >= 1300 && !rewardMedals.includes("Platinum Champion")) { newMedal = "Platinum Champion"; }
-    if(newMedal) {
-      rewardMedals.push(newMedal);
-      showRewardFlash(`🏅 NEW REWARD: ${newMedal} ! +50 bonus XP!`);
-      addXP(50, "reward_bonus");
-    }
-    saveProgress();
-  }
-  
-  function showRewardFlash(msg) {
-    const rewardDiv = document.getElementById("rewardMessage");
-    if(rewardDiv) {
-      rewardDiv.innerHTML = `<i class="fas fa-gift"></i> ${msg}`;
-      rewardDiv.style.display = "block";
-      setTimeout(() => { rewardDiv.style.display = "none"; }, 3000);
-    } else {
-      alert(msg);
-    }
-  }
-  
-  function completeLessonOrSign(itemId, xpReward, type) {
-    const idStr = type + "_" + itemId;
-    if(completedLessons.has(idStr)) return false;
-    completedLessons.add(idStr);
-    addXP(xpReward, type);
-    saveProgress();
-    computeGlobalProgress();
-    renderLessonsAndSigns();
-    return true;
-  }
-  
-  function computeGlobalProgress() {
-    const totalItems = lessonsData.length + roadSignsData.length;
-    const completedItems = Array.from(completedLessons).filter(id => id.startsWith("lesson_") || id.startsWith("sign_")).length;
-    const percent = totalItems === 0 ? 0 : Math.floor((completedItems / totalItems) * 100);
-    document.getElementById("progressPercent").innerText = percent;
-    return percent;
-  }
-  
-  function updateStatsDisplay() {
-    document.getElementById("xpValue").innerText = userXP;
-    document.getElementById("rewardCount").innerText = rewardMedals.length;
-  }
-  
-  // RENDER LESSONS & ROAD SIGNS
-  function renderLessonsAndSigns() {
-    const lessonsContainer = document.getElementById("lessonsContainer");
-    lessonsContainer.innerHTML = lessonsData.map(lesson => {
-      const isDone = completedLessons.has(`lesson_${lesson.id}`);
-      return `<div class="glass-card lesson-card" data-lesson-id="${lesson.id}">
-        <h3>${lesson.title} ${isDone ? '✅' : ''}</h3>
-        <p>${lesson.description}</p>
-        <div class="lesson-status"><span>🏅 ${lesson.xp} XP</span> ${!isDone ? '<button class="complete-lesson-btn" data-id="'+lesson.id+'" data-xp="'+lesson.xp+'">Mark Complete</button>' : '<span class="complete-badge">Completed</span>'}</div>
-      </div>`;
-    }).join("");
-    // road signs
-    const roadContainer = document.getElementById("roadSignsContainer");
-    roadContainer.innerHTML = roadSignsData.map(sign => {
-      const isDone = completedLessons.has(`sign_${sign.id}`);
-      return `<div class="glass-card lesson-card">
-        <h3><i class="fas fa-sign"></i> ${sign.name} ${isDone ? '✅' : ''}</h3>
-        <p>${sign.desc}</p>
-        <div class="lesson-status"><span>⭐ ${sign.xp} XP</span> ${!isDone ? '<button class="complete-sign-btn" data-id="'+sign.id+'" data-xp="'+sign.xp+'">Learn & Earn</button>' : '<span class="complete-badge">Mastered</span>'}</div>
-      </div>`;
-    }).join("");
-    
-    document.querySelectorAll(".complete-lesson-btn").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const id = parseInt(btn.dataset.id);
-        const xp = parseInt(btn.dataset.xp);
-        completeLessonOrSign(id, xp, "lesson");
-      });
-    });
-    document.querySelectorAll(".complete-sign-btn").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const id = parseInt(btn.dataset.id);
-        const xp = parseInt(btn.dataset.xp);
-        completeLessonOrSign(id, xp, "sign");
-      });
-    });
-  }
-  
-  // QUIZ LOGIC (real interactive)
-  let currentQuizQuestionObj = null;
-  let currentSelected = null;
-  function loadQuizQuestion(index) {
-    if(index >= quizBank.length) {
-      // quiz complete cycle
-      document.getElementById("quizDynamicContent").innerHTML = `<div style="text-align:center; padding:30px;"><i class="fas fa-check-circle" style="font-size:3rem; color:gold"></i><h3>Quiz Mastered! 🎉</h3><button id="restartQuizBtn">Restart Quiz</button></div>`;
-      const restartBtn = document.getElementById("restartQuizBtn");
-      if(restartBtn) restartBtn.onclick = () => { currentQuizIndex = 0; loadQuizQuestion(0); quizScoreSession = 0; updateQuizScoreDisplay(); };
-      return;
-    }
-    const q = quizBank[index];
-    currentQuizQuestionObj = q;
-    let optionsHtml = q.options.map((opt, idx) => `<div class="quiz-option" data-opt-index="${idx}">${opt}</div>`).join("");
-    const answeredBefore = quizAttempted[index];
-    const disabledAttr = answeredBefore ? 'disabled style="opacity:0.6;"' : '';
-    const alreadyCorrectMsg = answeredBefore ? `<div style="color:gold; margin-top:12px;"><i class="fas fa-check-circle"></i> You already answered this correctly! +${10} XP previously.</div>` : '';
-    const html = `
-      <div class="quiz-question">${q.question}</div>
-      <div class="quiz-options" id="quizOptions">${optionsHtml}</div>
-      ${!answeredBefore ? '<button id="submitQuizAnswer">Submit Answer</button>' : ''}
-      ${alreadyCorrectMsg}
-      <div id="quizFeedback"></div>
-      <div style="margin-top:20px;"><button id="nextQuizQuestion" ${answeredBefore ? '' : 'disabled'}>Next Question →</button></div>
-    `;
-    document.getElementById("quizDynamicContent").innerHTML = html;
-    if(!answeredBefore) {
-      document.querySelectorAll(".quiz-option").forEach(opt => {
-        opt.addEventListener("click", (e) => {
-          document.querySelectorAll(".quiz-option").forEach(o => o.style.background = "rgba(255,255,255,0.08)");
-          opt.style.background = "rgba(255,215,0,0.4)";
-          currentSelected = parseInt(opt.dataset.optIndex);
-        });
-      });
-      document.getElementById("submitQuizAnswer").onclick = () => {
-        if(currentSelected === undefined) { alert("Select an option"); return; }
-        const isCorrect = (currentSelected === q.correct);
-        const feedbackDiv = document.getElementById("quizFeedback");
-        if(isCorrect) {
-          if(!quizAttempted[currentQuizIndex]) {
-            quizAttempted[currentQuizIndex] = true;
-            addXP(10, "quiz_correct");
-            quizScoreSession += 10;
-            updateQuizScoreDisplay();
-            feedbackDiv.innerHTML = `<div style="background:#2e7d32; padding:12px; border-radius:20px;">✅ Correct! +10 XP. ${q.explanation}</div>`;
-            document.getElementById("nextQuizQuestion").disabled = false;
-            saveProgress();
-          } else {
-            feedbackDiv.innerHTML = `<div>Already answered, but correct!</div>`;
-          }
+
+    const navLinks = document.querySelectorAll('.nav-link');
+    const homeTriggers = [
+      document.getElementById('logoHome'),
+      document.getElementById('homeIconBtn'),
+      document.getElementById('footerHomeBtn')
+    ].filter(el => el !== null);
+
+    function showPage(pageId) {
+      // hide all pages
+      Object.values(pages).forEach(p => p.classList.remove('active-page'));
+      if (pages[pageId]) pages[pageId].classList.add('active-page');
+
+      // update active class on nav links
+      navLinks.forEach(link => {
+        const linkPage = link.getAttribute('data-page');
+        if (linkPage === pageId) {
+          link.classList.add('active');
         } else {
-          feedbackDiv.innerHTML = `<div style="background:#8b2c2c; padding:12px; border-radius:20px;">❌ Wrong! Correct: ${q.options[q.correct]}. ${q.explanation}</div>`;
+          link.classList.remove('active');
         }
-        renderProgressPanel();
-        computeGlobalProgress();
-      };
-    } else {
-      document.getElementById("nextQuizQuestion").disabled = false;
+      });
     }
-    document.getElementById("nextQuizQuestion").onclick = () => {
-      currentQuizIndex++;
-      loadQuizQuestion(currentQuizIndex);
-    };
-  }
-  
-  function updateQuizScoreDisplay() {
-    const totalEarned = quizAttempted.filter(v => v === true).length * 10;
-    document.getElementById("quizScoreBadge").innerHTML = `Score: ${totalEarned} XP`;
-  }
-  
-  function renderProgressPanel() {
-    const rewardsContainer = document.getElementById("rewardsList");
-    if(rewardsContainer) {
-      if(rewardMedals.length === 0) rewardsContainer.innerHTML = "<div>No medals yet. Complete lessons & quizzes!</div>";
-      else rewardsContainer.innerHTML = rewardMedals.map(m => `<div class="medal"><i class="fas fa-medal"></i> ${m}</div>`).join("");
-    }
-    // update chart
-    const totalItems = lessonsData.length + roadSignsData.length;
-    const completedItems = Array.from(completedLessons).filter(id => id.startsWith("lesson_") || id.startsWith("sign_")).length;
-    const quizProgress = quizAttempted.filter(v=>v===true).length;
-    const maxQuiz = quizBank.length;
-    if(window.progressChartInstance) window.progressChartInstance.destroy();
-    const ctx = document.getElementById('progressChart').getContext('2d');
-    window.progressChartInstance = new Chart(ctx, {
-      type: 'doughnut',
-      data: { labels: ['Lessons/Signs Completed', 'Remaining', 'Quiz Mastery'], datasets: [{ data: [completedItems, totalItems-completedItems, quizProgress], backgroundColor: ['#FFD966', '#333333', '#FFB347'], borderWidth: 0 }] },
-      options: { responsive: true, plugins: { legend: { labels: { color: 'white' } } } }
+
+    // add click to nav
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const page = link.getAttribute('data-page');
+        if (page) showPage(page);
+      });
     });
-  }
-  
-  function updateUIFromState() {
-    updateStatsDisplay();
-    computeGlobalProgress();
-  }
-  
-  function renderAllPanels() {
-    renderLessonsAndSigns();
-    if(document.getElementById("quizPanel").classList.contains("active-panel")) {
-      loadQuizQuestion(currentQuizIndex);
-    }
-    renderProgressPanel();
-  }
-  
-  // Themes + dynamic background
-  const themes = {
-    default: { bg: "url('https://images.pexels.com/photos/290275/pexels-photo-290275.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')", gradient: "radial-gradient(circle at 20% 30%, rgba(0,0,0,0.92), #000000)" },
-    midnight: { bg: "url('https://images.pexels.com/photos/1314410/pexels-photo-1314410.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')", gradient: "#020617" },
-    savanna: { bg: "url('https://images.pexels.com/photos/2887019/pexels-photo-2887019.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')", gradient: "radial-gradient(circle at 70% 20%, #261f0e, #0a0701)" }
-  };
-  function applyTheme(themeName) {
-    const t = themes[themeName];
-    if(t) {
-      document.getElementById("dynamicBg").style.backgroundImage = t.bg;
-      document.body.style.background = t.gradient;
-    }
-  }
-  
-  // Event listeners & initialization
-  document.querySelectorAll(".tab-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      const tabId = btn.dataset.tab;
-      document.querySelectorAll(".panel").forEach(p => p.classList.remove("active-panel"));
-      document.getElementById(`${tabId}Panel`).classList.add("active-panel");
-      if(tabId === "quiz") { loadQuizQuestion(currentQuizIndex); updateQuizScoreDisplay(); }
-      if(tabId === "progress") renderProgressPanel();
-      if(tabId === "lessons") renderLessonsAndSigns();
+
+    // home triggers
+    homeTriggers.forEach(btn => {
+      btn.addEventListener('click', () => showPage('home'));
     });
-  });
-  document.querySelectorAll(".theme-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => { applyTheme(btn.dataset.theme); });
-  });
-  document.getElementById("resetProgressBtn")?.addEventListener("click", () => {
-    if(confirm("Reset ALL progress, XP, rewards?")) {
-      localStorage.removeItem("eliteDrivingBotswana");
-      userXP = 0; completedLessons.clear(); quizAttempted.fill(false); rewardMedals = [];
-      saveProgress(); updateUIFromState(); renderAllPanels(); updateQuizScoreDisplay(); computeGlobalProgress();
+
+    // ensure home active at start (already home active)
+    // but if any mismatch
+    showPage('home'); // force consistency
+
+    // ------- interactive quiz (features page) ---------
+    const optA = document.getElementById('optA');
+    const optB = document.getElementById('optB');
+    const optC = document.getElementById('optC');
+    const optD = document.getElementById('optD');
+    const feedbackDiv = document.getElementById('quizFeedback');
+
+    function handleQuiz(answer) {
+      if (!feedbackDiv) return;
+      if (answer === 'B') {
+        feedbackDiv.innerHTML = '<i class="fas fa-check-circle" style="color: #FFD700;"></i> ✅ correct! +10 points. (stop & give way)';
+        feedbackDiv.style.color = '#FFD700';
+        // simulate reward animation
+      } else {
+        feedbackDiv.innerHTML = '<i class="fas fa-times-circle" style="color: #FFD700;"></i> ❌ not this time. try again.';
+        feedbackDiv.style.color = '#FFD700';
+      }
+      // add little spark (optional)
     }
-  });
-  
-  loadProgress();
-  applyTheme("default");
-  renderAllPanels();
+
+    if (optA && optB && optC && optD && feedbackDiv) {
+      optA.addEventListener('click', () => handleQuiz('A'));
+      optB.addEventListener('click', () => handleQuiz('B'));
+      optC.addEventListener('click', () => handleQuiz('C'));
+      optD.addEventListener('click', () => handleQuiz('D'));
+    }
+
+    // extra gold animation: pulse on home icon already in css, but we add class for some icons
+    // manual no extra
+
+    // optional: small animation on page change (already CSS)
+  })();
 </script>
+
+<!-- inline extra style for subtle gold hover everywhere -->
+<style>
+  /* additional animations */
+  .gold-card i {
+    transition: transform 0.2s;
+  }
+  .gold-card:hover i {
+    transform: scale(1.2) rotate(2deg);
+    color: #FFD700;
+  }
+  .nav-link, .btn-home, .home-icon {
+    will-change: transform;
+  }
+  .page.active-page {
+    animation: fadeSlide 0.3s ease-out;
+  }
+  @keyframes fadeSlide {
+    0% { opacity: 0.2; transform: translateX(8px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  /* custom scrollbar (gold) */
+  ::-webkit-scrollbar { width: 8px; background: black; }
+  ::-webkit-scrollbar-thumb { background: #FFD700; border-radius: 20px; }
+</style>
 </body>
 </html>
